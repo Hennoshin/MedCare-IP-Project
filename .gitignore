@@ -4,3 +4,5 @@
 /nbproject/project.xml
 /build.xml
 /nbproject/genfiles.properties
+/web/META-INF/context.xml
+/src/conf/MANIFEST.MF

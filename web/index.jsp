@@ -4,7 +4,6 @@
     Author     : Asus
 --%>
 
-<%@page import="Database.DB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <% DB.getConnect(); %>
         <h1>Hello World!</h1>
     </body>
 </html>

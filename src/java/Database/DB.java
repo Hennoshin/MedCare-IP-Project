@@ -8,6 +8,8 @@ package Database;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,10 +23,14 @@ public class DB {
         this.connect = DriverManager.getConnection("jdbc:mysql://" + url + ":" + port + "/" + dbname, user, pass);
     }
     
-    public static DB getConnect() throws SQLException, ClassNotFoundException {
+    public static DB getConnect() throws SQLException {
         if (Objects.isNull(db)) {
-            Class.forName("com.mysql.jdbc.Driver");
-            db = new DB("localhost", "3306", "myproject", "root", "");
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            db = new DB("localhost", "3306", "projectdb", "root", "");
         }
         
         return db;
@@ -54,6 +60,11 @@ public class DB {
     public int executeUpdate(String sql) throws SQLException {
         return this.connect.prepareStatement(sql).executeUpdate();
     }
+    
+    public ResultSet select(String tbl) throws SQLException {
+        return this.connect.prepareStatement("SELECT * FROM " + tbl).executeQuery();
+    }
+    
     /**
      * Insert a new row into a certain table.
      * This function only allows the insertion to all of the columns.

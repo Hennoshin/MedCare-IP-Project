@@ -24,11 +24,11 @@
             function editCart() {
                 $("form").attr("action", "")
                 $("form")[0].submit();
-                
             }
             
             function removeProduct(index) {
-                $("tr")[index].remove();
+                $("input[name=\"id[]\"]").eq(index).remove();
+                editCart();
             }
         </script>
     </head>
@@ -84,7 +84,7 @@
                                             </td>
                                             <td>RM<%= qty.get(counter) * p.getPrice() %></td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeProduct(<%= counter + 1 %>)">
+                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeProduct(<%= counter %>)">
                                                     <i class="fa fa-close material-icons" style="color: red; font-size: 25px">remove</i>
                                                 </button>
                                             </td>

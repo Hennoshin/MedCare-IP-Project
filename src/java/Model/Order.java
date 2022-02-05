@@ -22,12 +22,15 @@ public class Order implements IModel {
     private String userId;
     private Date orderDate;
     private String address;
+    private boolean dirty;
 
     public Order(ResultSet rs) throws SQLException {
         this.id = rs.getString("orderId");
         this.userId = rs.getString("userId");
         this.orderDate = rs.getDate("orderDate");
         this.address = rs.getString("address");
+        
+        this.dirty = false;
     }
     
     public Order() throws SQLException {
@@ -55,8 +58,10 @@ public class Order implements IModel {
         
         this.id = sindex;
         
-        this.userId = "m.irfan.hilmi@gmail.com";
+        this.userId = "";
         this.address = "";
+        
+        this.dirty = true;
     }
 
     public Map<Product, Integer> getOrderedProduct() throws SQLException {
@@ -122,7 +127,16 @@ public class Order implements IModel {
     public boolean save() throws SQLException {
         DB db = DB.getConnect();
         
-        db.insert("order_history", new int[]{Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.VARCHAR}, this.id, this.userId, this.orderDate, this.address);
+        if (this.dirty) {
+            db.insert("order_history", new int[]{Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.VARCHAR}, this.id, this.userId, this.orderDate, this.address);
+            this.dirty = false;
+        }
+        else {
+            Map<String, Object> pkey = new HashMap();
+            pkey.put("id", this.id);
+            db.update("order_history", pkey, new String[]{"orderId", "userId", "orderDate", "address"}, new int[]{Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.VARCHAR}, this.id, this.userId, this.orderDate, this.address);
+        }
+
         return true;
     }
 

@@ -44,9 +44,9 @@ public class OrderController extends HttpServlet {
         Map<String, Integer> cart;
         ArrayList<Product> products = new ArrayList();
         ArrayList<Integer> qty = new ArrayList();
+        cart = (HashMap<String, Integer>)request.getSession().getAttribute("cart");
         
-        if (request.getSession().getAttribute("cart") != null) {
-            cart = (HashMap<String, Integer>)request.getSession().getAttribute("cart");
+        if (cart != null) {
             for (Map.Entry<String, Integer> c : cart.entrySet()) {
                 products.add(Product.find(c.getKey()));
                 qty.add(c.getValue());
@@ -64,13 +64,18 @@ public class OrderController extends HttpServlet {
         Map<String, Integer> cart = new HashMap();
         
         int counter = 0;
-        for (String id : request.getParameterValues("id[]")) {
-            cart.put(id, Integer.parseInt(request.getParameterValues("quantity[]")[counter]));
-            counter++;
+        if (request.getParameterValues("id[]") != null) {
+            for (String id : request.getParameterValues("id[]")) {
+                cart.put(id, Integer.parseInt(request.getParameterValues("quantity[]")[counter]));
+                counter++;
+            }
         }
         
         request.getSession().setAttribute("cart", cart);
         
+        // Redirect for POST/Redirect/GET with 303 code
+        response.setStatus(303);
+        response.setHeader("Location", request.getRequestURL().toString());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

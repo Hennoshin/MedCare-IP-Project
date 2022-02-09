@@ -46,6 +46,8 @@ public class CheckoutController extends HttpServlet {
                 order.attachOrderedProduct(pr.getKey(), pr.getValue());
             }
         }
+        
+        response.sendRedirect("/");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -75,8 +77,14 @@ public class CheckoutController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            checkout(request, response);
+            if ((request.getSession().getAttribute("authenticated") != null) && (boolean)request.getSession().getAttribute("authenticated")) {
+                checkout(request, response);
+            }
+            else {
+                response.sendRedirect("View/login.jsp");
+            }
         } catch (SQLException ex) {
+            response.getWriter().print(ex);
             Logger.getLogger(CheckoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

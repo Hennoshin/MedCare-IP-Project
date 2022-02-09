@@ -54,7 +54,7 @@ public class RegisterController extends HttpServlet {
                 user.save();
             } 
             
-            RequestDispatcher rd = request.getRequestDispatcher("View/index.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("View/login.jsp");
             rd.forward(request, response);
         }
     }
@@ -71,21 +71,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            response.getWriter().print(ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            response.getWriter().print(ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            response.getWriter().print(ex);
-        } catch (InvalidKeySpecException ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-            response.getWriter().print(ex);
-        }
+        request.getRequestDispatcher("View/register.jsp").forward(request, response);
     }
 
     /**

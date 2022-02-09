@@ -40,7 +40,7 @@ public class LogoutController extends HttpServlet {
                 session.invalidate();
             }
             
-            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("View/index.jsp");
                     rd.forward(request, response);
         }
     }

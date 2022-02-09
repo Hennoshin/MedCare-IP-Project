@@ -9,6 +9,8 @@ import Database.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,10 +35,11 @@ public class Product implements IModel {
             res.first();
             
             return new Product(res);
-        }
-        catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+        
     }
     
     public Product() {

@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Authenticatable;
+import Model.Supplier;
 import Model.User;
 import java.sql.*;
 import java.io.IOException;
@@ -43,29 +45,34 @@ public class LoginController extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
-            String email = request.getParameter("username");
+            String email = request.getParameter("email");
             String password = request.getParameter("password");
             
-            User user = User.find(email);
-            
+            Authenticatable user = User.find(email);
+            request.getSession().setAttribute("auth_type", 1);
+            if (user == null) {
+                user = Supplier.find(email);
+                request.getSession().setAttribute("auth_type", 2);
+            }
             
             try {
                 if ((user != null) && (user.comparePassword(password))) {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", user);
                     session.setAttribute("authenticated", true);
-                    RequestDispatcher rd = request.getRequestDispatcher("/.jsp");
-                    rd.include(request, response);
+                    response.sendRedirect(request.getContextPath() + "/");
                 }
                 else {
-                    RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("View/login.jsp");
                     request.setAttribute("message", "Incorrect email or password. Please try again");
-                    rd.include(request, response);
+                    rd.forward(request, response);
                 }
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                response.getWriter().print(ex);
             } catch (InvalidKeySpecException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                response.getWriter().print(ex);
             }
         }
     }
@@ -82,15 +89,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            response.getWriter().print(ex);
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            response.getWriter().print(ex);
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        request.getRequestDispatcher("View/login.jsp").forward(request, response);
     }
 
     /**

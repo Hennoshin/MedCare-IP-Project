@@ -22,7 +22,7 @@
         
         <script>
             function editCart() {
-                $("form").attr("action", "")
+                $("form").attr("action", "");
                 $("form")[0].submit();
             }
             
@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form method="POST" action="/checkout">
+                    <form method="POST" action="checkout">
                         <div class="table-wrap border border-dark">
                             <table class="table">
                                 <thead class="thead-primary">

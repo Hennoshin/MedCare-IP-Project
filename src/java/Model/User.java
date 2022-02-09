@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -22,9 +24,8 @@ import javax.crypto.spec.PBEKeySpec;
  *
  * @author Asus
  */
-public class User implements IModel {
+public class User extends Authenticatable implements IModel {
     private String email;
-    private String password;
     private String name;
     private String address;
     
@@ -57,6 +58,7 @@ public class User implements IModel {
             return new User(res);
         }
         catch (Exception e) {
+            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
     }
@@ -82,6 +84,7 @@ public class User implements IModel {
         this.password = enc.encodeToString(hash);
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -96,16 +99,6 @@ public class User implements IModel {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-    
-    public boolean comparePassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), new byte[]{0}, 65536, 128);
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] hash = f.generateSecret(spec).getEncoded();
-        Base64.Encoder enc = Base64.getEncoder();
-        
-        String passhash = enc.encodeToString(hash);
-        return passhash.equals(this.password);
     }
     
     @Override

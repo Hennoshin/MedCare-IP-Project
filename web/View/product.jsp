@@ -41,13 +41,18 @@
             <form method="GET">
                 <input type="text" class="form-control" placeholder="Search Product" name="search">
             </form>
+            <br>
+            <table>
             <%
             for (Product p : (ArrayList<Product>)request.getAttribute("products")) {
                 request.setAttribute("p", p);
                  %>
-            <h5>${p.id}, ${p.price}</h5>
-            <button onclick="addCart('${p.id}')">Add to cart</button>
+                 <tr>
+                    <td><h5>${p.productName}, ${p.price}<br>${p.description}</h5></td>
+                    <td><button onclick="addCart('${p.id}')">Add to cart</button></td>
+                </tr>
             <% } %>
+            </table>
         </div>
     </body>
 </html>

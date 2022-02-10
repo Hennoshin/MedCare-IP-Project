@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -64,6 +66,23 @@ public class Order implements IModel {
         this.dirty = true;
     }
 
+    public static Order find(String id) {
+        try {
+            ResultSet res = DB.getConnect().where("order_history", "orderID", id);
+            res.first();
+            
+            return new Order(res);
+        }
+        catch (Exception e) {
+            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }
+    }
+    
+    public static ResultSet all() throws SQLException {
+        return DB.getConnect().select("order_history");
+    }
+    
     public Map<Product, Integer> getOrderedProduct() throws SQLException {
         Map<Product, Integer> map = new HashMap();
         
@@ -134,7 +153,7 @@ public class Order implements IModel {
         else {
             Map<String, Object> pkey = new HashMap();
             pkey.put("id", this.id);
-            db.update("order_history", pkey, new String[]{"orderId", "userId", "orderDate", "address"}, new int[]{Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.VARCHAR}, this.id, this.userId, this.orderDate, this.address);
+            db.update("order_history", pkey, new String[]{"orderID", "userID", "orderDate", "address"}, new int[]{Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.VARCHAR}, this.id, this.userId, this.orderDate, this.address);
         }
 
         return true;

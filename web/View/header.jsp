@@ -49,16 +49,24 @@
                         <%= ((Authenticatable)request.getSession().getAttribute("user")).getName() %>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/profile" %>">Profile</a></li>
+                        <% if (((Integer)request.getSession().getAttribute("auth_type")) == 1) { %>
+                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/profile" %>">Profile</a></li>  
+                        <% } else { %>
+                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/" %>">Management Page</a></li>
+                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/report/inventory" %>">Generate Inventory Report</a></li>
+                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/report/sales" %>">Generate Sales Report</a></li>
+                        <% } %>
                         <li><a class="dropdown-item" href="<%= request.getContextPath() + "/logout" %>">Logout</a></li>
                     </ul>
                 </div>
                 <% } %>
-                    <a href="cart">
+                    <% if ((request.getSession().getAttribute("authenticated") == null) || ((request.getSession().getAttribute("authenticated") != null) && ((Integer)request.getSession().getAttribute("auth_type") == 1))) { %>
+                    <a href="<%= request.getContextPath() + "/cart" %>">
                         <button><span class="mx-4 material-icons material-icons-outlined">
                             shopping_cart
                         </span></button>
                     </a>
+                    <% } %>
                 </div>
             </div>
         </div>

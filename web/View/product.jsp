@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <title>JSP Page</title>
         
@@ -36,12 +37,17 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        <%
-        for (Product p : (ArrayList<Product>)request.getAttribute("products")) {
-            request.setAttribute("p", p);
-             %>
-        <h5>${p.id}, ${p.price}</h5>
-        <button onclick="addCart('${p.id}')">Add to cart</button>
-        <% } %>
+        <div class="container">
+            <form method="GET">
+                <input type="text" class="form-control" placeholder="Search Product" name="search">
+            </form>
+            <%
+            for (Product p : (ArrayList<Product>)request.getAttribute("products")) {
+                request.setAttribute("p", p);
+                 %>
+            <h5>${p.id}, ${p.price}</h5>
+            <button onclick="addCart('${p.id}')">Add to cart</button>
+            <% } %>
+        </div>
     </body>
 </html>

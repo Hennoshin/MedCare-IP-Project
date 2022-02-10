@@ -7,4 +7,5 @@ This is the repository for MedCare project, Internet Programming course.
 2. Create a new project in the NetBeans
 3. Select New Project with Existing Sources
 4. Select the clone folder as the location
-5. Configure the server settings and existing sources and libraries
+5. Configure the server settings
+6. Configure the existing source configuration (The default value for the web folder sometimes refer to the /web/View folder instead of the /web folder, please check and configure accordingly)

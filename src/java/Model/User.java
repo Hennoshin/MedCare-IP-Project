@@ -106,6 +106,7 @@ public class User extends Authenticatable implements IModel {
         DB db = DB.getConnect();
         if (dirty) {
             db.insert("usertbl", new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR}, this.email, this.password, this.name, this.address);
+            this.dirty = false;
         }
         else {
             HashMap<String, Object> pkey = new HashMap();

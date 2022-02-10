@@ -18,7 +18,7 @@
         <div class="bg-yellow-500 shadow-md border border-gray-200 rounded-lg max-w-sm p-4 sm:p-6 lg:p-8">
             <h1 class="text-4xl text-red-600", cursive;">
                 MedCare</h1><br><span class="font-normal">MedCare</span></h1>
-            <form action="../register" method="POST" mt-6>
+            <form action="<%= request.getContextPath() + "/register" %>" method="POST" mt-6>
                 <label for="email" class="block text-xs font-semibold text-gray-600 uppercase">Email</label>
                 <input id="email" type="email" name="email" 
                     class="block w-full p-3 mt-2  bg-gray-200 appearance-none focus:outline-none focus:bg-gray-300 focus:shadow-inner"

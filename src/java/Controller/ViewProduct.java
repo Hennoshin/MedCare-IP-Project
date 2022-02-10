@@ -15,12 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.regex.Matcher;
 
 /**
  *
@@ -40,11 +42,18 @@ public class ViewProduct extends HttpServlet {
      */
     protected void viewProduct(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
+        String patstr = request.getParameter("search") == null ? "" : request.getParameter("search");
+        Pattern pat = Pattern.compile(patstr, Pattern.CASE_INSENSITIVE);
+        
         ResultSet products = Product.all();
         
         ArrayList<Product> prods = new ArrayList();
         while (products.next()) {
-            prods.add(new Product(products));
+            Product p = new Product(products);
+            Matcher matcher = pat.matcher(p.getProductName());
+            if (matcher.find()) {
+                prods.add(p);
+            }
         }
         
         request.setAttribute("products", prods);

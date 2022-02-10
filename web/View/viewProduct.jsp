@@ -83,6 +83,7 @@
 		</style>
 	</head>
 	<body>
+            <jsp:include page="headingSupp.jsp"/>
 		<div class="container">
 			<table align="center" class="productTable">
 				<thead>

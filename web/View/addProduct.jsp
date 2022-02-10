@@ -83,6 +83,7 @@ body {
 </style>
 </head>
 <body>
+    <jsp:include page="headingSupp.jsp"/>
     <%
         String msg=request.getParameter("msg");
         if("done".equals(msg))

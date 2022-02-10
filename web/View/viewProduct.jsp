@@ -108,8 +108,8 @@
 								<td><%=p.getDescription()%></td>
 								<td><%=p.getManufacturer()%></td>
 								<td>RM <%=p.getPrice()%></td>
-								<td><button class="actionBtn" onclick="location.href = 'editProduct.jsp?id=${p.getId}';">Edit</button></td>
-								<td><button class="actionBtn" onclick="location.href = 'processDeleteProduct.jsp?id=${p.getId}';">Delete</button></td>
+								<td><button class="actionBtn" onclick="location.href = 'editProduct.jsp?id=${p.getId()}';">Edit</button></td>
+								<td><button class="actionBtn" onclick="location.href = 'processDeleteProduct.jsp?id=${p.getId()}';">Delete</button></td>
 							</tr>
 					<%
 						}

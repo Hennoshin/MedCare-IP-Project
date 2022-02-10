@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Order;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -41,13 +42,17 @@ public class CheckoutController extends HttpServlet {
         
         Order order = new Order();
         order.setOrderDate(new Date());
+        
+        User user = (User) request.getSession().getAttribute("user");
+        order.setUserId(user);
+        order.setAddress(user.getAddress());
         if (order.save()) {
             for (Map.Entry<String, Integer> pr : cart.entrySet()) {
                 order.attachOrderedProduct(pr.getKey(), pr.getValue());
             }
         }
         
-        response.sendRedirect("/");
+        response.sendRedirect(request.getContextPath() + "/");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

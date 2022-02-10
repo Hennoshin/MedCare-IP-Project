@@ -11,7 +11,7 @@
     <nav class="bg-yellow-500 sm:px-4 py-4 mb-16">
         <div class="container mx-24 mx-auto">
             <div class="container flex flex-wrap justify-between items-center mx-auto px-24">
-                <a href="index.jsp" class="flex">
+                <a href="<%= request.getContextPath() %>" class="flex">
                     <h1 class="text-4xl text-red-600", cursive;">
                         MedCare</h1>
                 </a>
@@ -44,7 +44,15 @@
                     </button></a>
                 
                 <% } else { %>
-                    <p><%= ((Authenticatable)request.getSession().getAttribute("user")).getName() %></p>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <%= ((Authenticatable)request.getSession().getAttribute("user")).getName() %>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/profile" %>">Profile</a></li>
+                        <li><a class="dropdown-item" href="<%= request.getContextPath() + "/logout" %>">Logout</a></li>
+                    </ul>
+                </div>
                 <% } %>
                     <a href="cart">
                         <button><span class="mx-4 material-icons material-icons-outlined">
